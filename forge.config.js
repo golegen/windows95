@@ -3,9 +3,7 @@ const package = require('./package.json');
 
 module.exports = {
   packagerConfig: {
-    asar: {
-      unpack: '**/images/*.img'
-    },
+    asar: false,
     icon: path.resolve(__dirname, 'assets', 'icon'),
     appBundleId: 'com.felixrieseberg.windows95',
     appCategoryType: 'public.app-category.developer-tools',
@@ -37,7 +35,7 @@ module.exports = {
     },
     {
       name: '@electron-forge/maker-zip',
-      platforms: ['darwin']
+      platforms: ['darwin', 'win32']
     },
     {
       name: '@electron-forge/maker-deb',
@@ -46,10 +44,19 @@ module.exports = {
     {
       name: '@electron-forge/maker-rpm',
       platforms: ['linux']
-    },
+    }
+  ],
+  publishers: [
     {
-      name: '@electron-forge/maker-flatpak',
-      platforms: ['linux']
+      name: '@electron-forge/publisher-github',
+      config: {
+        repository: {
+          owner: 'felixrieseberg',
+          name: 'windows95'
+        },
+        draft: true,
+        prerelease: true
+      }
     }
   ]
 };
